@@ -426,7 +426,7 @@ _compareTemp
 configs/
 config/
 dummy/
-public/images/
+
 dwsync.xml
 dw_php_codehinting.config
 *.mno
