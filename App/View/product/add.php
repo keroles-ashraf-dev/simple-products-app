@@ -1,7 +1,7 @@
 <div class="min-vh-100">
 	<nav class="navbar bg-body-tertiary mb-4">
 		<div class="container-fluid">
-			<div class="navbar-brand">Add product</div>
+			<a class="navbar-brand" href="<?php echo url("/products/add") ?>">Add product</a>
 			<div class="d-flex">
 				<button id="product-form-submit" class="btn btn-success">Save</button>
 				<a class="btn btn-danger ms-2" href="<?php echo url("/products") ?>">Cancel</a>
