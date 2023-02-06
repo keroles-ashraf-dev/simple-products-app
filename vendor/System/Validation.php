@@ -77,6 +77,31 @@ class Validation
     }
 
     /**
+     * Determine if the given input has int value
+     *
+     * @param string $input
+     * @param string $customErrorMessage
+     * @return $this
+     */
+    public function int($input, $customErrorMessage = null)
+    {
+        if ($this->hasErrors($input)) {
+            return $this;
+        }
+
+        $value = $this->value($input);
+        $value = intval($value);
+
+        if (!is_int($value)) {
+            $defaultMessage = sprintf('%s Accepts only int', ucfirst($input));
+            $message = $customErrorMessage ?: $defaultMessage;
+            $this->addError($input, $message);
+        }
+
+        return $this;
+    }
+
+    /**
      * Determine if the given input has float value
      *
      * @param string $input
@@ -90,6 +115,7 @@ class Validation
         }
 
         $value = $this->value($input);
+        $value = floatval($value);
 
         if (!is_float($value)) {
             $defaultMessage = sprintf('%s Accepts only float', ucfirst($input));
@@ -191,7 +217,7 @@ class Validation
         }
 
         if ($result) {
-            $defaultMessage = sprintf('%s already exists', ucfirst($input));
+            $defaultMessage = sprintf('%s already exists, should be unique', ucfirst($input));
             $message = $customErrorMessage ?: $defaultMessage;
             $this->addError($input, $message);
         }
@@ -248,15 +274,7 @@ class Validation
      */
     private function value($input)
     {
-        $value = $this->app->request->post($input, '');
-
-        if ($value === '') {
-            $value = $this->app->request->fileGetContents($input);
-        }
-
-        if ($value === '') {
-            $value = $this->app->request->get($input);
-        }
+        $value = $this->app->request->requestValue($input);
 
         return $value;
     }

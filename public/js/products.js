@@ -6,9 +6,9 @@ const responseMessageContainer = document.getElementById('js-response-message-co
 
 // ************************** functions call *************************************//
 
-handleProductTypeSelectChange();  // handle product type select change to display right attributes
+//handleProductTypeSelectChange();  // handle product type select change to display right attributes
 
-handleProductFormSubmit();  // handle product form submit
+//handleProductFormSubmit();  // handle product form submit
 
 // ************************** functions deceleration *************************************//
 

@@ -1,7 +1,7 @@
 <div class="min-vh-100">
 	<nav class="navbar bg-body-tertiary mb-4">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="<?php echo url("/products/add") ?>">Add product</a>
+			<a class="navbar-brand" href="<?php echo url("/products/add") ?>">Add Product</a>
 			<div class="d-flex">
 				<button id="product-form-submit" class="btn btn-success">Save</button>
 				<a class="btn btn-danger ms-2" href="<?php echo url("/products") ?>">Cancel</a>
@@ -9,9 +9,7 @@
 		</div>
 	</nav>
 	<form id="product-form" class="container col" action="<?php echo url("/products/add/submit") ?>" method="POST">
-		<div id="js-response-message-container" class="alert alert-danger d-none" role="alert">
-			A simple danger alert—check it out!
-		</div>
+		<div id="js-response-message-container" class="alert alert-danger d-none" role="alert"></div>
 		<div class="col-md-6 mb-2">
 			<label for="sku" class="col-form-label">SKU</label>
 			<input type="text" class="form-control" id="sku" name="sku" required>
@@ -37,26 +35,31 @@
 				<div class="col-md-6 mb-2">
 					<label for="size" class="col-form-label">Size(MB)</label>
 					<input type="number" class="form-control" id="size" name="size" required>
+					<div class="form-text">Please enter dvd storage capacity in megabyte</div>
 				</div>
 			</div>
 			<div class="d-none" id="book-attr">
 				<div class="col-md-6 mb-2">
 					<label for="weight" class="col-form-label">Weight(KG)</label>
 					<input type="number" class="form-control" id="weight" name="weight" step="0.1" required>
+					<div class="form-text">Please enter book weight in kilograms</div>
 				</div>
 			</div>
 			<div class="d-none" id="furniture-attr">
 				<div class="col-md-6 mb-2">
 					<label for="height" class="col-form-label">Height(CM)</label>
 					<input type="number" class="form-control" id="height" name="height" step="0.01" required>
+					<div class="form-text">Please enter furniture height in centimeters</div>
 				</div>
 				<div class="col-md-6 mb-2">
 					<label for="width" class="col-form-label">Width(CM)</label>
 					<input type="number" class="form-control" id="width" name="width" step="0.01" required>
+					<div class="form-text">Please enter furniture width in centimeters</div>
 				</div>
 				<div class="col-md-6 mb-2">
 					<label for="length" class="col-form-label">Length(CM)</label>
 					<input type="number" class="form-control" id="length" name="length" step="0.01" required>
+					<div class="form-text">Please enter furniture length in centimeters</div>
 				</div>
 			</div>
 		</div>

@@ -3,6 +3,8 @@
 namespace App\Model;
 
 use System\Model;
+use App\Dao\product\Product;
+use App\Dao\product\ProductBuilder;
 
 class ProductModel extends Model
 {
@@ -16,32 +18,15 @@ class ProductModel extends Model
 	/**
 	 * Create new product record
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function create()
+	public function create(Product $product)
 	{
-		$images = [];
-		$countFiles = count($_FILES);
+		$id = $this->data($product->toDto())->insert($this->table)->lastId();
 
-		for ($i = 0; $i < $countFiles; $i++) {
-			$images[] = $this->uploadImage("product-image-$i");
-		}
+		if (empty($id)) return false;
 
-		$id = $this
-			->data('category_id', $this->request->post('category-id'))
-			->data('name', $this->request->post('name'))
-			->data('description', $this->request->post('description'))
-			->data('price', $this->request->post('price'))
-			->data('available_count', $this->request->post('available-count'))
-			->data('status', $this->request->post('status'))
-			->insert($this->table)->lastId();
-
-		for ($i = 0; $i < $countFiles; $i++) {
-			$this
-				->data('product_id', $id)
-				->data('name', $images[$i])
-				->insert($this->imagesTable);
-		}
+		return true;
 	}
 
 	/**
@@ -51,10 +36,23 @@ class ProductModel extends Model
 	 */
 	public function getProducts()
 	{
-		return $this
-			->select('p.id, p.name, c.id category_id, c.name category_name, p.description, p.price, p.available_count, p.status')
-			->from($this->table . ' p')
+		$data = $this
+			->select('id, sku, name, price, type, attr')
+			->from($this->table)
 			->fetchAll();
+
+		$products = [];
+
+		foreach ($data as $e) {
+
+			$builder = ProductBuilder::getInstance();
+
+			$product = $builder->build($e->id, $e->sku, $e->name, $e->price, $e->type, $e->attr);
+
+			$products[] = $product;
+		}
+
+		return $products;
 	}
 
 	/**

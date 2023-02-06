@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use System\Controller;
+use App\Dao\Product;
+use App\Dao\product\ProductBuilder;
 
 class ProductController extends Controller
 {
@@ -14,11 +16,11 @@ class ProductController extends Controller
     public function index()
     {
         $productModel = $this->load->model('Product');
-        
-        $products = [];//$productModel->getProducts();
+
+        $products = $productModel->getProducts();
 
         $data['products'] = $products;
-        
+
         $this->html->setTitle('Products');
 
         $view = $this->view->render('product/products', $data);
@@ -47,33 +49,50 @@ class ProductController extends Controller
      */
     public function submitAddProduct()
     {
-        if (!$this->isAddInputDataValid()) {
+        $validator = $this->validator;
+
+        $product = $this->buildProduct();
+
+        if (!$product->isValid($validator)) {
             $json['success'] = false;
             $json['message'] = flatten($this->validator->getErrors());
             return json_encode($json);
         }
 
         $productsModel = $this->load->model('Product');
-        $productsModel->create();
+
+        $success = $productsModel->create($product);
+
+        if (!$success) {
+            $json['success'] = false;
+            $json['message'] = 'Something wrong happens, try again later';
+            return json_encode($json);
+        }
 
         $json['success'] = true;
         $json['message'] = 'Product created successfully';
         $json['redirect_to'] = url('/products');
-
         return json_encode($json);
     }
 
     /**
-     * Validate product add form
-     *
-     * @return bool
+     * build product object
+     * 
+     * @return Product
      */
-    private function isAddInputDataValid()
+    private function buildProduct()
     {
-        $this->validator->required('sku')->text('sku')->maxLen('sku', 64);
-        $this->validator->required('name')->text('name')->maxLen('name', 255);
-        $this->validator->required('price')->float('price')->maxLen('price', 9);
+        $builder = ProductBuilder::getInstance();
 
-        return $this->validator->passes();
+        $product = $builder->build(
+            -1,
+            $this->request->requestValue('sku'),
+            $this->request->requestValue('name'),
+            $this->request->requestValue('price'),
+            $this->request->requestValue('product-type'),
+            $this->request->requestInputs(),
+        );
+
+        return $product;
     }
 }

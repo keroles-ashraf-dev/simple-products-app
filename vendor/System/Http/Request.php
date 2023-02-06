@@ -19,13 +19,6 @@ class Request
 	private $baseUrl;
 
 	/**
-	 * Uploaded Files Container
-	 *
-	 * @var array
-	 */
-	private $files = [];
-
-	/**
 	 * Prepare url
 	 *
 	 * @return void
@@ -112,6 +105,27 @@ class Request
 	}
 
 	/**
+	 * Get the value for the given input name
+	 *
+	 * @param string $input
+	 * @return mixed
+	 */
+	public function requestValue($input)
+	{
+		$value = $this->post($input, '');
+
+		if ($value === '') {
+			$value = $this->fileGetContents($input, '');
+		}
+
+		if ($value === '') {
+			$value = $this->get($input);
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Set Value To _POST For the given key
 	 *
 	 * @param string $key
@@ -121,6 +135,25 @@ class Request
 	public function setPost($key, $value)
 	{
 		$_POST[$key] = $value;
+	}
+
+	/**
+	 * Get passed values from request
+	 *
+	 * @return array
+	 */
+	public function requestInputs()
+	{
+		if (!empty($_POST)) return $_POST;
+
+		if (!empty($_GET)) return $_GET;
+
+		$row = file_get_contents("php://input");
+		$data = json_decode($row, true);
+
+		if (!empty($data)) return $data;
+
+		return [];
 	}
 
 	/**
