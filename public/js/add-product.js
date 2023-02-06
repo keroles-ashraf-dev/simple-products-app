@@ -1,4 +1,4 @@
-import { log, redirectTo, toggleResponseMessage } from "../js/helpers.js"
+import { log, redirectTo, toggleResponseMessageShowing } from "../js/helpers.js"
 
 // ************************** global vars *************************************//
 
@@ -52,7 +52,7 @@ function handleProductFormSubmit() {
 
 	productFormSubmit?.addEventListener('click', _ => {
 
-		toggleResponseMessage(responseMessageContainer);
+		toggleResponseMessageShowing(responseMessageContainer);
 
 		const data = new FormData(productForm);
 		const requestUrl = productForm.attributes['action']['value'];
@@ -88,6 +88,6 @@ function handleApiResponse(resData) {
 	}
 
 	if (resData['message']) {
-		toggleResponseMessage(responseMessageContainer, resData['message'], resData['success'], true);
+		toggleResponseMessageShowing(responseMessageContainer, resData['message'], resData['success'], true);
 	}
 }

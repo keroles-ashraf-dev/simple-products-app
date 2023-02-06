@@ -34,18 +34,17 @@ class ProductModel extends Model
 	 *
 	 * @return array
 	 */
-	public function getProducts()
+	public function all()
 	{
 		$data = $this
 			->select('id, sku, name, price, type, attr')
 			->from($this->table)
 			->fetchAll();
 
+		$builder = ProductBuilder::getInstance();
 		$products = [];
 
 		foreach ($data as $e) {
-
-			$builder = ProductBuilder::getInstance();
 
 			$product = $builder->build($e->id, $e->sku, $e->name, $e->price, $e->type, $e->attr);
 
@@ -53,23 +52,5 @@ class ProductModel extends Model
 		}
 
 		return $products;
-	}
-
-	/**
-	 * delete Product Record By Id
-	 *
-	 * @param int $id
-	 * @return void
-	 */
-	public function delete($id, $table = null)
-	{
-		$oldImages = $this->getProductImages($id);
-		$oldImagesCount = count($oldImages);
-
-		for ($i = 0; $i < $oldImagesCount; $i++) {
-			$this->deleteImage($oldImages[$i]->name);
-		}
-
-		$this->where('id = ?', $id)->delete($this->table);
 	}
 }

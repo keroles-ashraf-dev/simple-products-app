@@ -19,30 +19,7 @@ function formDataToJson(data) {
   }, {}));
 }
 
-function htmlSpecialChars_encode(str) {
-  const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
-  return str.replace(/[&<>"']/g, m => map[m]);
-}
-
-function htmlSpecialChars_decode(str) {
-  const map =
-  {
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&quot;': '"',
-    '&#039;': "'"
-  };
-  return str.replace(/&amp;|&lt;|&gt;|&quot;|&#039;/g, (m) => map[m]);
-}
-
-function toggleResponseMessage(presentationElement, message = '', succeed = false, show = false) {
+function toggleResponseMessageShowing(presentationElement, message = '', succeed = false, show = false) {
 
   if (!presentationElement) return;
 
@@ -69,7 +46,5 @@ export {
   delay,
   redirectTo,
   formDataToJson,
-  htmlSpecialChars_encode,
-  htmlSpecialChars_decode,
-  toggleResponseMessage,
+  toggleResponseMessageShowing,
 }

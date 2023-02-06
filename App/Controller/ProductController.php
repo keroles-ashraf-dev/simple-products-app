@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         $productModel = $this->load->model('Product');
 
-        $products = $productModel->getProducts();
+        $products = $productModel->all();
 
         $data['products'] = $products;
 
@@ -94,5 +94,50 @@ class ProductController extends Controller
         );
 
         return $product;
+    }
+
+    /**
+     * Submit for delete product
+     *
+     * @return string | json
+     */
+    public function submitDeleteProduct()
+    {
+        if (!$this->validator->intArray('deleted-ids')) {
+            $json['success'] = false;
+            $json['message'] = flatten($this->validator->getErrors());
+            return json_encode($json);
+        }
+
+        $deletedItems = $this->request->requestValue('deleted-ids');
+
+        $productModel = $this->load->model('Product');
+
+        $success = true;
+        
+        foreach ($deletedItems as $i) {
+
+            $exists = $productModel->exists($i);
+
+            if ($exists) {
+
+                $productModel->delete($i);
+            } else {
+
+                $success = false;
+                break;
+            }
+        }
+
+        if (!$success) {
+            $json['success'] = false;
+            $json['message'] = 'Something wrong happens, try again later';
+            return json_encode($json);
+        }
+
+        $json['success'] = true;
+        $json['message'] = 'Products deleted successfully';
+        $json['redirect_to'] = url('/products');
+        return json_encode($json);
     }
 }

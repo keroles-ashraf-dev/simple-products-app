@@ -13,6 +13,9 @@ class FooterController extends Controller
      */
     public function index()
     {
-        return $this->view->render('main/footer');
+        // send current request url
+        $data['path'] = $this->request->url();
+
+        return $this->view->render('main/footer', $data);
     }
 }

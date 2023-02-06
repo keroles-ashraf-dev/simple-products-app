@@ -102,6 +102,33 @@ class Validation
     }
 
     /**
+     * Determine if the given input is array of integers
+     *
+     * @param string $input
+     * @param string $customErrorMessage
+     * @return $this
+     */
+    public function intArray($input, $customErrorMessage = null)
+    {
+        if ($this->hasErrors($input)) {
+            return $this;
+        }
+
+        $value = $this->value($input);
+
+        foreach ($value as $i) {
+            if (!is_int($i)) {
+                $defaultMessage = sprintf('%s is invalid', ucfirst($input));
+                $message = $customErrorMessage ?: $defaultMessage;
+                $this->addError($input, $message);
+                break;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Determine if the given input has float value
      *
      * @param string $input

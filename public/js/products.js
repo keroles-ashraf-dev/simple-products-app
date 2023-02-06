@@ -1,4 +1,4 @@
-import { log, redirectTo, toggleResponseMessage } from "../js/helpers.js"
+import { log, redirectTo, toggleResponseMessageShowing } from "../js/helpers.js"
 
 // ************************** global vars *************************************//
 
@@ -6,59 +6,38 @@ const responseMessageContainer = document.getElementById('js-response-message-co
 
 // ************************** functions call *************************************//
 
-//handleProductTypeSelectChange();  // handle product type select change to display right attributes
-
-//handleProductFormSubmit();  // handle product form submit
+handleProductsDelete();  // handle products mass delete 
 
 // ************************** functions deceleration *************************************//
 
-function handleProductTypeSelectChange() {
+function handleProductsDelete() {
 
-	const typeSelect = document.getElementById("product-type");
-	const typeAttrParent = document.getElementById("product-attr-parent");
+	const productsDeleteBtn = document.getElementById('products-mass-delete');
+	const productsDeleteCheckbox = Array.from(document.getElementsByClassName('delete-checkbox'));
 
-	const typeAttrChildren = Array.from(typeAttrParent?.children);
+	productsDeleteBtn?.addEventListener('click', _ => {
 
-	handleProductTypeShowing(typeSelect, typeAttrChildren);
+		toggleResponseMessageShowing(responseMessageContainer);
 
-	typeSelect?.addEventListener("change", () => {
-
-		handleProductTypeShowing(typeSelect, typeAttrChildren);
-
-	});
-}
-
-function handleProductTypeShowing(typeSelect, children) {
-
-	const selectedOption = typeSelect?.options[typeSelect.selectedIndex];
-	const selectedType = selectedOption?.id + "-attr";
-
-	children?.forEach(e => {
-
-		if (e.id == selectedType) {
-			e.classList.add("d-block");
-			e.classList.remove("d-none");
-		} else {
-			e.classList.add("d-none");
-			e.classList.remove("d-block");
-		}
-	});
-}
-
-function handleProductFormSubmit() {
-
-	const productFormSubmit = document.getElementById('product-form-submit');
-	const productForm = document.getElementById('product-form');
-
-	productFormSubmit?.addEventListener('click', _ => {
-
-		toggleResponseMessage(responseMessageContainer);
-
-		const data = new FormData(productForm);
-		const requestUrl = productForm.attributes['action']['value'];
+		const data = JSON.stringify({
+			'deleted-ids': getDeletedProductsIds(productsDeleteCheckbox)
+		});
+		const requestUrl = productsDeleteBtn?.dataset.target;
 
 		createPostRequest(data, requestUrl);
 	});
+}
+
+function getDeletedProductsIds(elements) {
+
+	const ids = [];
+
+	elements?.forEach(e => {
+
+		if (e.checked) ids.push(e.dataset.id);
+	});
+
+	return ids;
 }
 
 function createPostRequest(data, requestUrl) {
@@ -88,6 +67,6 @@ function handleApiResponse(resData) {
 	}
 
 	if (resData['message']) {
-		toggleResponseMessage(responseMessageContainer, resData['message'], resData['success'], true);
+		toggleResponseMessageShowing(responseMessageContainer, resData['message'], resData['success'], true);
 	}
 }

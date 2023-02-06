@@ -10,7 +10,7 @@ use App\Dao\product\Furniture;
 class ProductBuilder
 {
 	/**
-	 * application object
+	 * Product Builder object
 	 *
 	 * @var ProductBuilder
 	 */
