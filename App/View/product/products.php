@@ -3,8 +3,8 @@
 		<div class="container-fluid">
 			<a class="navbar-brand" href="<?php echo url("/products") ?>">Product List</a>
 			<div class="d-flex">
-				<a id="product-form-submit" class="btn btn-primary" href="<?php echo url("/products/add") ?>">Add</a>
-				<button id="products-mass-delete" class="btn btn-danger ms-2" data-target="<?php echo url("/products/delete") ?>">Mass delete</button>
+				<a id="product-form-submit" class="btn btn-primary" href="<?php echo url("/products/add") ?>">ADD</a>
+				<button id="products-mass-delete" class="btn btn-danger ms-2" data-target="<?php echo url("/products/delete") ?>">MASS DELETE</button>
 			</div>
 		</div>
 	</nav>

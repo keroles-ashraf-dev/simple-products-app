@@ -14,7 +14,7 @@ handleProductFormSubmit();  // handle product form submit
 
 function handleProductTypeSelectChange() {
 
-	const typeSelect = document.getElementById("product-type");
+	const typeSelect = document.getElementById("productType");
 	const typeAttrParent = document.getElementById("product-attr-parent");
 
 	const typeAttrChildren = Array.from(typeAttrParent?.children);
@@ -48,7 +48,7 @@ function handleProductTypeShowing(typeSelect, children) {
 function handleProductFormSubmit() {
 
 	const productFormSubmit = document.getElementById('product-form-submit');
-	const productForm = document.getElementById('product-form');
+	const productForm = document.getElementById('product_form');
 
 	productFormSubmit?.addEventListener('click', _ => {
 

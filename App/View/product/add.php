@@ -8,7 +8,7 @@
 			</div>
 		</div>
 	</nav>
-	<form id="product-form" class="container col" action="<?php echo url("/products/add/submit") ?>" method="POST">
+	<form id="product_form" class="container col" action="<?php echo url("/products/add/submit") ?>" method="POST">
 		<div id="js-response-message-container" class="alert alert-danger d-none" role="alert"></div>
 		<div class="col-md-6 mb-2">
 			<label for="sku" class="col-form-label">SKU</label>
@@ -24,7 +24,7 @@
 		</div>
 		<div class="col-md-6 mb-2">
 			<label for="type" class="col-form-label">Type</label>
-			<select class="form-select" id="product-type" name="product-type" required>
+			<select class="form-select" id="productType" name="product-type" required>
 				<option id="dvd" selected value="dvd">DVD</option>
 				<option id="book" value="book">Book</option>
 				<option id="furniture" value="furniture">Furniture</option>
